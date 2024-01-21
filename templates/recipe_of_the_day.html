@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe of the Day</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+            background-size: 1920px 164vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f;
+            margin-bottom: 20px;
+        }
+
+        .recipe-card {
+            background-color: #f4a261; /* Light Orange Color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: scale(1.02);
+        }
+
+        .recipe-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        p {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff; /* White Text Color */
+            background-color: #90be6d; /* Green Color */
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+            color: #fff; /* White Text Color on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipe of the Day</h1>
+
+    <div class="recipe-card">
+        <div class="recipe-details">
+            <p>Name: {{ recipe.name }}</p>
+            <p>Ingredients: {{ recipe.ingredients }}</p>
+            <p>Instructions: {{ recipe.instructions }}</p>
+            <p>Nutrition Facts: {{ recipe.nutrition_facts }}</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index') }}">Return to Recipe Index</a>
+</body>
+</html>

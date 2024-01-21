@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Categories</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+            background-size: 1920px 164vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .recipe-list {
+            flex-grow: 1;
+            margin-left: 220px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f; /* Orange color */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center; /* Center-align the category links */
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a.category-link {
+            text-decoration: none;
+            color: #fff; /* White text */
+            background-color: #90be6d; /* Green color for buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s; /* Transition for color change on hover */
+        }
+
+        a.category-link:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+        }
+
+        .back-to-index {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-to-index a {
+            text-decoration: none;
+            color: #fff; /* White text */
+            background-color: #90be6d; /* Green color for buttons */
+            border: 1px solid #90be6d; /* Green color for buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s; /* Transition for color change on hover */
+        }
+
+        .back-to-index a:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Recipe List -->
+        <div class="recipe-list">
+            <h1 class="my-4">Categories</h1>
+
+            <ul>
+                {% for category in categories %}
+                    <li><a href="{{ url_for('category_recipes', category_id=category.id) }}" class="category-link">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <!-- Back to Index Button -->
+            <div class="back-to-index">
+                <a href="{{ url_for('index') }}">Back to Index</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

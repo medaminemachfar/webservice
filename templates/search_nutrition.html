@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search by Nutrition Facts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+            background-size: 1920px 164vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .search-nutrition-form {
+            background-color: #f4a261; /* Light Orange Color */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f; /* Salmon Color */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2a9d8f;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #90be6d; /* Green Color */
+            color: #fff; /* White Text Color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-nutrition-form">
+    <h1>Search by Nutrition Facts</h1>
+    <form action="{{ url_for('search_nutrition') }}" method="post">
+        <label for="nutrition_query">Nutrition Facts:</label>
+        <input type="text" id="nutrition_query" name="nutrition_query" required>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Recipe</title>
+    <!-- Add your custom CSS if needed -->
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}'); /* Correct path */
+            background-size: 1920px 164vh; /* Adjusted: Width of the right panel and full height of the viewport */
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f; /* Salmon Color */
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f4a261; /* Light Orange Color */
+            padding: 20px;
+            border: 1px solid #457b9d; /* Blue-Gray Color */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2a9d8f; /* Teal Color */
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #457b9d; /* Blue-Gray Color */
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        input[type="submit"] {
+            background-color: #90be6d; /* Green Color for Success */
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+        }
+
+        a {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #e07a5f; /* Salmon Color */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Recipe</h1>
+    <form method="post" action="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="{{ recipe.name }}" required>
+
+        <label for="ingredients">Ingredients:</label>
+        <textarea name="ingredients" required>{{ recipe.ingredients }}</textarea>
+
+        <label for="instructions">Instructions:</label>
+        <textarea name="instructions" required>{{ recipe.instructions }}</textarea>
+
+        <label for="nutrition_facts">Nutrition Facts:</label>
+        <textarea name="nutrition_facts">{{ recipe.nutrition_facts }}</textarea>
+
+        <label for="category">Category:</label>
+        <select name="category">
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == recipe.category_id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label><input type="submit" value="Save Changes"></label>
+    </form>
+
+    <a href="{{ url_for('index')}}">Cancel</a>
+</body>
+</html>

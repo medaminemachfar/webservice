@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Suggested Recipes</title>
+    <style>
+        /* Add your styles or use an external stylesheet */
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}'); /* Correct path */
+            background-size: 1920px 164vh; /* Adjusted: Width of the right panel and full height of the viewport */
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-card {
+            margin-bottom: 20px;
+            border: 1px solid #457b9d; /* Blue-Gray Color */
+            border-radius: 8px;
+            background-color: #f4a261; /* Light Orange Color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: scale(1.02);
+        }
+
+        .recipe-card .card-body {
+            padding: 20px;
+        }
+
+        .recipe-card h5 {
+            color: #2a9d8f; /* Teal Color */
+            margin-bottom: 10px;
+        }
+
+        .recipe-card p {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .return-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .return-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="color: #e07a5f; text-align: center;">Suggested Recipes</h1>
+
+    {% for recipe in suggested_recipes %}
+        <div class="card recipe-card">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                <p class="card-text" style="color: #457b9d;">Ingredients: {{ recipe.ingredients }}</p>
+                <p class="card-text" style="color: #457b9d;">Instructions: {{ recipe.instructions }}</p>
+                <p class="card-text" style="color: #457b9d;">Nutrition Facts: {{ recipe.nutrition_facts }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="return-link">
+        <a href="{{ url_for('index') }}" style="color: #e07a5f;">Return to Recipe Index</a>
+    </div>
+
+</div>
+
+</body>
+</html>

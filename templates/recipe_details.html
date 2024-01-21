@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }} Details</title>
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+            background-size: 1920px 164vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f;
+        }
+
+        .container {
+            background-color: #f4a261; /* Orange Color */
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .container p {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .average-rating {
+            color: #2a9d8f;
+            margin-top: 20px;
+        }
+
+        .rating-form {
+            margin-top: 20px;
+        }
+
+        .rating-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+
+        .rating-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .submit-rating-btn,
+        .go-home-btn {
+            background-color: #90be6d; /* Green Color */
+            color: #fff; /* White Text Color */
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-rating-btn:hover,
+        .go-home-btn:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+        }
+
+        .success-message {
+            margin-top: 15px;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ recipe.name }} Details</h1>
+
+    <div class="container">
+        <p>Ingredients: {{ recipe.ingredients }}</p>
+        <p>Instructions: {{ recipe.instructions }}</p>
+        <p>Nutrition Facts: {{ recipe.nutrition_facts }}</p>
+        
+        {% if recipe.ratings %}
+            <p class="average-rating">Average Rating: {{ recipe.average_rating }}</p>
+        {% endif %}
+
+        <!-- Add a form to submit ratings -->
+        <form class="rating-form" id="ratingForm" method="post" action="{{ url_for('rate_recipe', recipe_id=recipe.id) }}">
+            <label for="rating">Rate this recipe:</label>
+            <select name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="button" onclick="submitRating()" class="submit-rating-btn">Submit Rating</button>
+        </form>
+        
+        <div id="successMessage" class="success-message"></div>
+        <button onclick="goToHomePage()" class="go-home-btn">Go to Home Page</button>
+        
+        <script>
+            function submitRating() {
+                var form = document.getElementById("ratingForm");
+                var formData = new FormData(form);
+        
+                // Use fetch to send the form data asynchronously
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Display success message
+                        document.getElementById("successMessage").innerText = "Rating has been saved successfully!";
+                    } else {
+                        // Handle error case if needed
+                        console.error("Failed to save rating");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error occurred:", error);
+                });
+            }
+
+            function goToHomePage() {
+                window.location.href = "{{ url_for('index') }}";
+            }
+        </script>
+    </div>
+</body>
+</html>

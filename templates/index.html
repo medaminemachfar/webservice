@@ -1,0 +1,201 @@
+<!-- Updated index.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recipe Index</title>
+        <style>
+            body {
+                padding: 20px;
+                font-family: 'Arial', sans-serif;
+                background-image: url('{{ url_for('static', filename='food_image.jpg') }}'); /* Correct path */
+                background-size: 1920px 164vh; /* Adjusted: Width of the right panel and full height of the viewport */
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 0 auto;
+                background-attachment: fixed;
+            }
+    
+            .container {
+                display: flex;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+    
+            .side-panel {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 200px;
+                display: flex;
+                flex-direction: column;
+                color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                background-color: #2d4059; /* Dark Blue Color */
+            }
+    
+            .side-panel h5 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #f4d35e; /* Yellow Color */
+            }
+    
+            a {
+                text-decoration: none;
+            }
+    
+            .side-panel .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                background-color: #90be6d; /* Green Color for Success */
+                color: #fff;
+                border: none;
+                padding: 8px;
+                cursor: pointer;
+                transition: transform 0.3s;
+            }
+    
+            .side-panel .btn-warning {
+                background-color: #f9c74f; /* Yellow Color for Warning */
+            }
+    
+            .side-panel .btn-danger {
+                background-color: #d9534f; /* Red Color for Danger */
+            }
+    
+            .side-panel .btn:hover {
+                transform: scale(1.1); /* Increase size on hover */
+            }
+    
+            .recipe-list {
+                flex-grow: 1;
+                margin-left: 220px;
+            }
+    
+            h1 {
+                text-align: center;
+                color: #e07a5f; /* Salmon Color */
+            }
+    
+            .recipe-card {
+                margin-bottom: 40px; /* Increased space between recipe cards */
+                border: 1px solid #457b9d; /* Blue-Gray Color */
+                border-radius: 8px;
+                background-color: #f4a261; /* Light Orange Color */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s;
+            }
+    
+            .recipe-card:hover {
+                transform: scale(1.02);
+            }
+    
+            .recipe-card .card-body {
+                padding: 20px;
+            }
+    
+            .recipe-card h5 {
+                color: #2a9d8f; /* Teal Color */
+                margin-bottom: 10px;
+            }
+    
+            .recipe-card p {
+                color: #6c757d;
+                margin-bottom: 5px;
+            }
+    
+            /* Add styles for the modify button */
+            .modal-header .btn-danger,
+            .modal-footer .btn-danger,
+            .recipe-card .modify-buttons {
+                margin-top: 10px; /* Push down the buttons */
+            }
+    
+            .modal-header .btn-danger,
+            .modal-footer .btn-danger {
+                background-color: #d9534f; /* Red Color for Modify Button */
+                color: #fff;
+                border-radius: 5px;
+                padding: 8px;
+                cursor: pointer;
+                margin-right: 10px; /* Increased space between buttons */
+            }
+    
+            .modal-header .btn-danger:hover,
+            .modal-footer .btn-danger:hover {
+                background-color: #c82333; /* Darker shade on hover */
+            }
+    
+            .btn-add-review {
+                background-color: #2a9d8f; /* Teal Color for Add Review Button */
+                color: #fff;
+                border: none;
+                padding: 8px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+    
+            .btn-add-review:hover {
+                background-color: #006466; /* Darker shade on hover */
+            }
+        </style>
+    </head>
+<body>
+
+<div class="container">
+    <!-- Side Panel -->
+    <div class="side-panel">
+        <h5>Functionalities</h5>
+        <a href="{{ url_for('add_recipe') }}" class="btn btn-success">Add Recipe</a>
+        <a href="{{ url_for('suggest_recipe_page') }}" class="btn btn-warning">Suggest Recipe</a>
+        <a href="{{url_for('search')}}" class="btn btn-danger">Search Recipe by name </a>
+        <a href="{{ url_for('recipe_of_the_day') }}" class="btn btn-success">Recipe of the Day</a>
+        <a href="{{ url_for('search_nutrition') }}" class="btn btn-warning">Search Recipe by Nutrition</a>
+        <a href="{{ url_for('categories') }}" class="btn btn-danger">View Categories</a>
+
+        {% if recipes %}
+            <a href="{{ url_for('recipe_list', recipe_id=recipes[0].id) }}" class="btn btn-success">View Reviews</a>
+            <a href="{{ url_for('choose_recipe') }}" class="btn btn-warning">Add Review</a>
+        {% endif %}
+    </div>
+
+    <!-- Recipe List -->
+    <div class="recipe-list">
+        <h1 class="my-4">Recipe Index</h1>
+
+        {% for recipe in recipes %}
+            <div class="card recipe-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text">Ingredients: {{ recipe.ingredients }}</p>
+                    <p class="card-text">Instructions: {{ recipe.instructions }}</p>
+                    <p class="card-text">Nutrition Facts: {{ recipe.nutrition_facts }}</p>
+
+                    <!-- Add some space here -->
+                    <div style="margin-bottom: 15px;"></div>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="deleteModal{{ recipe.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-footer">
+                                    <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}" class="btn btn-danger">Modify</a>
+                                    <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" class="btn btn-danger">Delete</a>
+                                    <a href="{{ url_for('rate_recipe', recipe_id=recipe.id) }}" class="btn btn-danger">Rate Recipe</a>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+</body>
+</html>

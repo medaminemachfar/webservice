@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{{ category.name }} Recipes</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+            background-size: 1920px 164vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e07a5f; /* Orange color */
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #90be6d; /* Green color for boxes */
+            border: 1px solid #90be6d; /* Green color for boxes */
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+        }
+
+        li .recipe-name {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        li .recipe-ingredients {
+            color: #fff; /* White text */
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: 1px solid #90be6d; /* Green color for buttons */
+            border-radius: 5px;
+            background-color: #90be6d; /* Green color for buttons */
+            color: #fff; /* White text */
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Transition for color change on hover and box scaling effect */
+        }
+
+        .back-button:hover {
+            background-color: #4d7c3c; /* Darker shade on hover */
+            color: #fff; /* White text on hover */
+            transform: scale(1.01); /* Smaller scale on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ category.name }} Recipes</h1>
+
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <span class="recipe-name">{{ recipe.name }}</span> - 
+                <span class="recipe-ingredients">{{ recipe.ingredients }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Button to go to index.html -->
+    <a href="{{ url_for('index') }}" class="back-button">Go to Recipe Index</a>
+</body>
+</html>

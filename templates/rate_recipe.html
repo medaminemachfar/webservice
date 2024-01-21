@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Recipe</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #343a40;
+        }
+
+        .rate-recipe-form {
+            margin-top: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+
+        .message-container {
+            margin-top: 15px;
+        }
+
+        .success-message {
+            color: #28a745;
+        }
+
+        .error-message {
+            color: #dc3545;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Rate Recipe</h1>
+
+    <div class="rate-recipe-form">
+        <form id="ratingForm" method="post" action="{{ url_for('rate_recipe', recipe_id=recipe.id) }}">
+            <label for="rating">Rate this recipe:</label>
+            <select name="rating" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="button" class="submit-button mt-4" onclick="submitRating()">Submit Rating</button>
+        </form>
+        
+
+        <div class="message-container" id="messageContainer">
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <div class="back-button">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Recipe Index</a>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    function submitRating() {
+        var form = document.getElementById('ratingForm');
+        var messageContainer = document.getElementById('messageContainer');
+        var successMessage = document.getElementById('successMessage');
+        var errorMessage = document.getElementById('errorMessage');
+
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                successMessage.textContent = data.message;
+                errorMessage.textContent = '';
+            } else {
+                errorMessage.textContent = data.message;
+                successMessage.textContent = '';
+            }
+            messageContainer.style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+</body>
+</html>

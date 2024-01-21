@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }} Details</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #343a40;
+        }
+
+        p {
+            color: #6c757d;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>{{ recipe.name }} Details</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <p>Ingredients: {{ recipe.ingredients }}</p>
+                <p>Instructions: {{ recipe.instructions }}</p>
+            </div>
+            
+            <div class="col-md-6">
+                {% if recipe.ratings %}
+                    <p>Average Rating: {{ recipe.average_rating }}</p>
+                {% endif %}
+                
+                <!-- Add a form to submit ratings -->
+                <form method="post" action="{{ url_for('submit_rating', recipe_id=recipe.id) }}">
+                    <label for="rating">Rate this recipe:</label>
+                    <select name="rating" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Recipe Index</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

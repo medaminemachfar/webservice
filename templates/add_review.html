@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Review</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('{{ url_for('static', filename='food_image.jpg') }}');
+    background-size: 1920px 164vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #e07a5f;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-top: 20px;
+    max-width: 400px;
+    background-color: #f4a261; /* Light Orange Color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: auto; /* Push the box to the right */
+    margin-right: auto;
+}
+
+label {
+    color: #2a9d8f; /* Teal Color */
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px; /* Add margin-top to create space */
+    background-color: #90be6d; /* Green Color */
+    color: #fff; /* White Text Color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #4d7c3c; /* Darker shade on hover */
+}
+
+.flash-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-back-to-index {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #90be6d; /* Green color for buttons */
+    color: #fff; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.btn-back-to-index:hover {
+    background-color: #4d7c3c; /* Darker shade on hover */
+    color: #fff; /* White text on hover */
+}
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Add Review for {{ recipe_name }}</h1>
+    
+        <div class="review-section">
+            <!-- Existing reviews -->
+            <h2>Reviews for {{ recipe_name }}</h2>
+            {% for review in recipe_reviews %}
+                <div class="review">
+                    <p>{{ review.content }}</p>
+                </div>
+            {% endfor %}
+    
+            <!-- Review form -->
+            <form method="post" action="{{ url_for('add_review', recipe_name=recipe_name) }}">
+                <label for="review_content">Add a review:</label>
+                <textarea name="review_content" class="form-control" required></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    </body>
+</html>
